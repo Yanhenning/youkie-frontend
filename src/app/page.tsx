@@ -1,103 +1,135 @@
+"use client";
 import Image from "next/image";
+import { Typography, Card, CardContent, Button, Box, Chip } from "@mui/material";
+import ArticleIcon from '@mui/icons-material/Article';
+import EmailIcon from '@mui/icons-material/Email';
+import AudioFileIcon from '@mui/icons-material/AudioFile';
+import VideoFileIcon from '@mui/icons-material/VideoFile';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleSignupClick = () => {
+    router.push('/signup');
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 gap-8 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-[32px] items-center">
         <Image
           className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
+          src="/assets/youkie.png"
+          alt="Youkie logo"
           width={180}
-          height={38}
+          height={180}
           priority
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+        <Card elevation={3} sx={{ maxWidth: 750, width: '100%', borderRadius: 2 }}>
+          <CardContent sx={{ p: 4 }}>
+            <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+              Youkie - Your Personal Friendly AI Helper
+            </Typography>
+
+            <Typography variant="body1" sx={{ mt: 2, mb: 3 }}>
+              Let Youkie assist you with summarizing documents, organizing information, and simplifying complex topics.
+              Our AI companion transforms how you consume content, making your daily tasks easier and more efficient.
+            </Typography>
+
+            <Card variant="outlined" sx={{ mb: 4, bgcolor: 'background.paper', p: 2 }}>
+              <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+                Summarize Content Across Formats
+              </Typography>
+
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                  <ArticleIcon color="primary" />
+                  <Typography variant="body2">
+                    <strong>Articles & Blog Posts:</strong> Get key insights from long-form content in seconds. Youkie extracts the most important points so you can quickly decide if a full read is worth your time.
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                  <EmailIcon color="primary" />
+                  <Typography variant="body2">
+                    <strong>Emails & Documents:</strong> Handle information overload by condensing lengthy emails and documents into actionable bullet points. Never miss critical information in your inbox again.
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, opacity: 0.8 }}>
+                  <AudioFileIcon color="action" />
+                  <Box>
+                    <Typography variant="body2">
+                      <strong>Audio Content:</strong> Coming soon! Youkie will transcribe and summarize podcasts, meetings, and voice notes, helping you capture essential information without replaying hours of content.
+                    </Typography>
+                    <Chip label="Coming Soon" size="small" sx={{ mt: 1 }} />
+                  </Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, opacity: 0.8 }}>
+                  <VideoFileIcon color="action" />
+                  <Box>
+                    <Typography variant="body2">
+                      <strong>Video Content:</strong> On our roadmap! Youkie will extract key points from lectures, presentations, and tutorials, giving you the essence without watching the full video.
+                    </Typography>
+                    <Chip label="Coming Soon" size="small" sx={{ mt: 1 }} />
+                  </Box>
+                </Box>
+              </Box>
+            </Card>
+
+            <Typography variant="h6" component="h2" gutterBottom sx={{ mt: 4 }}>
+              Why Choose Youkie?
+            </Typography>
+
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3, mt: 2 }}>
+              <Card variant="outlined" sx={{ flex: 1 }}>
+                <CardContent>
+                  <Typography variant="subtitle1" fontWeight="bold">Time-Saving</Typography>
+                  <Typography variant="body2">Get quick summaries of lengthy documents and articles</Typography>
+                </CardContent>
+              </Card>
+
+              <Card variant="outlined" sx={{ flex: 1 }}>
+                <CardContent>
+                  <Typography variant="subtitle1" fontWeight="bold">Easy to Use</Typography>
+                  <Typography variant="body2">Simple interface designed for everyone, no technical skills required</Typography>
+                </CardContent>
+              </Card>
+
+              <Card variant="outlined" sx={{ flex: 1 }}>
+                <CardContent>
+                  <Typography variant="subtitle1" fontWeight="bold">Personalized</Typography>
+                  <Typography variant="body2">Adapts to your preferences and learns from your feedback</Typography>
+                </CardContent>
+              </Card>
+            </Box>
+
+            <Box sx={{ mt: 4, textAlign: 'center' }}>
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                onClick={handleSignupClick}
+                sx={{
+                  borderRadius: 28,
+                  px: 4,
+                  py: 1.5,
+                  textTransform: 'none',
+                  fontWeight: 'medium',
+                }}
+              >
+                Sign Up Now - Its Free!
+              </Button>
+
+              <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
+                Start using Youkie today and experience the difference in how you consume content.
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
