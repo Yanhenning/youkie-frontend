@@ -26,7 +26,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   function getErrorAlert() {
     return <>
       {loginError &&
-          <Alert sx={{mb: 2}}>
+          <Alert severity="error" sx={{mb: 2}}>
             <Typography>
               Failed to login. Please check your credentials and try again.
             </Typography>
