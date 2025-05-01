@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
     <Box
       component="footer"
       sx={{
-        py: 4,
+        py: 1, // Reduced padding-top and padding-bottom
         px: 2,
         mt: 'auto',
         backgroundColor: (theme) => theme.palette.mode === 'light'
@@ -62,3 +62,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+

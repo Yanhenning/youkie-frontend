@@ -7,6 +7,7 @@ import {UserProvider} from "@/context/UserContext";
 import theme from '@/theme'
 import NavigationBar from "@/components/NavigationBar";
 import Footer from "@/components/Footer";
+import ReactQueryProvider from "@/context/ReactQueryProvider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
+
     return (
         <html lang="en">
         <body
@@ -33,13 +35,15 @@ export default function RootLayout({children}: Readonly<{
         >
         <AppRouterCacheProvider>
             <ThemeProvider theme={theme}>
-                <UserProvider>
-                    <NavigationBar/>
-                    <Box sx={{margin: 4, minHeight: '60vh'}}>
-                        {children}
-                    </Box>
-                    <Footer/>
-                </UserProvider>
+                <ReactQueryProvider>
+                    <UserProvider>
+                        <NavigationBar/>
+                        <Box sx={{margin: 4, minHeight: '680px'}}>
+                            {children}
+                        </Box>
+                        <Footer/>
+                    </UserProvider>
+                </ReactQueryProvider>
             </ThemeProvider>
         </AppRouterCacheProvider>
         </body>

@@ -22,9 +22,8 @@ export const useSummarizeWebsocket = () => {
   const wsRef = useRef<WebSocketClient | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  // Remove the useEffect that was causing page-wide scrolling issues
+  // We'll handle this differently in the Chat component
 
   const handleStartConnection = () => {
     if (wsRef.current) {
@@ -124,4 +123,3 @@ export const useSummarizeWebsocket = () => {
     handleStyleChange
   };
 };
-

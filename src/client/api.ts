@@ -1,44 +1,32 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios from 'axios';
 
-// Get base URL based on environment
-const getBaseUrl = (): string => {
-  if (process.env.NODE_ENV === 'production') {
-    return process.env.NEXT_PUBLIC_API_URL || 'https://api.youkie.com'; // TBD for production
-  }
-  return 'http://127.0.0.1:8000'; // Local environment
-};
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
-// Default config for axios instance
-const config: AxiosRequestConfig = {
-  baseURL: getBaseUrl(),
+const api = axios.create({
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-};
+});
 
-// Create axios instance with config
-const api: AxiosInstance = axios.create(config);
-
-// Add request interceptor for auth tokens, etc.
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.request.use((config) => {
+  if (typeof window !== 'undefined') {
+    const storedUser = localStorage.getItem('handly-user');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      if (user.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+      }
     }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+  }
+  return config;
+});
 
-// Add response interceptor for error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle errors (e.g., 401 unauthorized, 403 forbidden, etc.)
-    if (error.response && error.response.status === 401) {
-      // Handle unauthorized access
-      // For example: redirect to login page
+    if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
+      console.error('API connection error:', error.message);
     }
     return Promise.reject(error);
   }

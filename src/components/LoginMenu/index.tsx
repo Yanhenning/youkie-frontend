@@ -2,8 +2,6 @@
 
 import { useUser } from '@/context/UserContext'
 import Logout from '@mui/icons-material/Logout'
-import PersonAdd from '@mui/icons-material/PersonAdd'
-import Settings from '@mui/icons-material/Settings'
 import { Avatar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react'
 
@@ -74,25 +72,6 @@ export const LoginMenu = () => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem onClick={closeMenuList}>
-            <Avatar /> Profile
-          </MenuItem>
-          <MenuItem onClick={closeMenuList}>
-            <Avatar /> My account
-          </MenuItem>
-          <Divider />
-          <MenuItem onClick={closeMenuList}>
-            <ListItemIcon>
-              <PersonAdd fontSize="small" />
-            </ListItemIcon>
-            Add another account
-          </MenuItem>
-          <MenuItem onClick={closeMenuList}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
           <MenuItem onClick={onClickLogout}>
             <ListItemIcon>
               <Logout fontSize="small" />

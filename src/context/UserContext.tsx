@@ -1,60 +1,79 @@
 "use client"
+import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { LoginParams, useLoginMutation} from '@/services/user';
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
 
-export type User = {
-  name: string
-  email: string
-  token: string
-  refreshToken: string
-  username: string
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  username: string;
 }
 
-export type UserContextType = {
-  user: User | null
-  logout: () => void
-  login: (user: User) => void
-  isLoggedIn: () => boolean
+export type UserAuthenticated = {
+  access_token: string;
+  token_type: string;
+  user?: User;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined)
-const key = 'handly-user'
+interface UserContextType {
+  user: User | null;
+  setUser: (user: User | null) => void;
+  isAuthenticated: boolean;
+  logout: () => void;
+  login: (credentials: LoginParams, redirectUrl?: string) => void;
+  isLoggingIn: boolean;
+  loginError: unknown;
+}
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUserState] = useState<User | null>(null)
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem(key)
-    if (storedUser) {
-      setUserState(JSON.parse(storedUser))
+export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
+
+  const { mutate: loginMutate, isLoading, error: loginError } = useLoginMutation({
+    onSuccess: (data: UserAuthenticated) => {
+      setUser(data);
+      localStorage.setItem('token', data.access_token);
+      router.push("/home")
+    },
+    onError: (error) => {
+      console.error('Login error:', error);
     }
-  }, [])
+  });
 
-  const login = (user: User) => {
-    setUserState(user)
-    localStorage.setItem(key, JSON.stringify(user))
-  }
-
+  const login = (credentials: LoginParams) => loginMutate(credentials)
+  
   const logout = () => {
-    setUserState(null)
-    localStorage.removeItem(key)
-  }
+    setUser(null);
+    localStorage.removeItem('token');
+    router.push('/login');
+  };
 
   const isLoggedIn = () => {
-    return user !== null
+    return localStorage.getItem('token') !== null
   }
 
-  return (
-    <UserContext.Provider value={{ user, login, logout, isLoggedIn }}>
-      {children}
-    </UserContext.Provider>
-  )
-}
+  const value = {
+    user,
+    setUser,
+    isAuthenticated: !!user,
+    logout,
+    login,
+    isLoggedIn,
+    loginError,
+    isLoading,
+  };
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};
 
 export const useUser = (): UserContextType => {
-  const context = useContext(UserContext)
+  const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider')
+    throw new Error('useUserContext must be used within a UserProvider');
   }
-  return context
-}
+  return context;
+};

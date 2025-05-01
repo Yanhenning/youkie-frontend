@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -45,6 +45,14 @@ export default function Chat({
                              }: ChatProps) {
     const [selectedStyle, setSelectedStyle] = useState<SummarizationStyle>(SummarizationStyle.NORMAL);
     const [expanded, setExpanded] = useState<boolean>(false);
+    const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+    // Add effect to scroll the chat container when messages change
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -127,6 +135,7 @@ export default function Chat({
                                     border: '1px solid #e0e0e0',
                                     borderRadius: 1
                                 }}
+                                ref={chatContainerRef}
                             >
                                 {messages.map((msg, index) => (
                                     <Box
@@ -157,7 +166,8 @@ export default function Chat({
                                         )}
                                     </Box>
                                 ))}
-                                <div ref={messagesEndRef}/>
+                                {/* Keep this invisible div for future reference if needed */}
+                                <div ref={messagesEndRef} style={{ height: 0 }}/>
                             </Paper>
 
                             <Divider sx={{mb: 2}}/>

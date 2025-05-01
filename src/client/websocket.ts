@@ -6,7 +6,7 @@ const getWebSocketUrl = (): string => {
     const baseUrl = process.env.NEXT_PUBLIC_WS_URL || 'wss://api.youkie.com'; // TBD for production
     return baseUrl;
   }
-  return 'ws://127.0.0.1:8000'; // Local environment
+  return 'ws://localhost:8000'; // Local environment
 };
 
 class WebSocketClient extends EventEmitter {
