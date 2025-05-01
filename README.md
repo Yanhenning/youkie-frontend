@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Youkie Frontend
+
+A modern web application featuring a chat interface powered by LangChain for intelligent conversations.
+
+## Features
+
+- **User Authentication**: Register and login functionality with JWT token management
+- **Interactive Chat**: Real-time conversation with AI powered by LangChain
+- **WebSocket Integration**: Live streaming responses from the backend
+- **Material UI Components**: Clean, responsive UI design
+
+## Chat with LangChain Integration
+
+The application features a chat interface that connects to a LangChain backend through WebSockets:
+
+- Real-time message streaming for fluid conversation experience
+- Intelligent responses powered by LangChain's language models
+- Loading indicators for better user experience while waiting for responses
+- Automatic scrolling for new messages
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v16 or newer)
+- npm or yarn
+- Backend API server running (see configuration)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/youkie-frontend.git
+   cd youkie-frontend
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. If you use nvm, switch to the correct Node.js version:
+   ```
+   nvm use
+   ```
+   This will use the Node.js version specified in the `.nvmrc` file.
 
-## Learn More
+3. Install dependencies:
+   ```
+   npm install
+   # or
+   yarn install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Create an `.env.local` file with the following configuration:
+   ```
+   NEXT_PUBLIC_API_URL=http://your-backend-api-url
+   NEXT_PUBLIC_WS_URL=ws://your-websocket-url
+   ```
+   For local development, these might look like:
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:8000
+   NEXT_PUBLIC_WS_URL=ws://localhost:8000/ws
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Start the development server:
+   ```
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deploy on Vercel
+## API Connection
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application connects to the backend API for:
+- User authentication (register/login)
+- WebSocket connection for the chat feature
+- The backend will run in the localhost
+- Make sure to set the `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_WS_URL` in your `.env.local` file to point to the correct backend URLs.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Make sure the backend server is running and properly configured in your environment variables.
+
+## Technology Stack
+
+- Next.js
+- React
+- TypeScript
+- Material UI
+- React Query
+- Axios
+- WebSocket API

@@ -37,7 +37,7 @@ export default function HomePage() {
                 </Typography>
                 <Box sx={{position: 'absolute', right: 0}}>
                     <Image
-                        src="/assets/Youkie.png"
+                        src="/assets/youkie.png"
                         alt="Youkie"
                         width={80}
                         height={80}

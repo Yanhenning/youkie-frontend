@@ -1,7 +1,7 @@
 "use client"
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import {LoginParams, RegisterParams, useLoginMutation} from '@/services/user';
+import {LoginParams, RegisterParams, useLoginMutation, useRegisterMutation} from '@/services/user';
 import {getLocalStorage, removeLocalStorage, saveLocalStorage} from "@/utils";
 
 
@@ -49,7 +49,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = (credentials: LoginParams) => loginMutate(credentials)
 
-  const { mutate: registerMutate } = useLoginMutation({
+  const { mutate: registerMutate } = useRegisterMutation({
     onSuccess: (data: UserAuthenticated) => {
       setUser(data?.user);
       saveLocalStorage('token', data.access_token);

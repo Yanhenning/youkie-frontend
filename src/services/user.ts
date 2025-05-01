@@ -1,4 +1,4 @@
-import {User, UserAuthenticated} from '@/context/UserContext';
+import { UserAuthenticated} from '@/context/UserContext';
 import { post } from '@/client/methods';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
@@ -19,9 +19,9 @@ export type TokenResponse = {
 };
 
 export const authService = {
-  register: async (params: RegisterParams): Promise<User> => {
+  register: async (params: RegisterParams): Promise<UserAuthenticated> => {
     try {
-      return await post<User>('/auth/register', params);
+      return await post<UserAuthenticated>('/auth/register', params);
     } catch (error: unknown) {
       console.error('Registration error:', error);
       throw error;
@@ -58,14 +58,14 @@ export const useLoginMutation = (options?: {
   });
 }
 
-export const useRegisterMutation = (
-  onSuccess?: (data: User) => void,
+export const useRegisterMutation = (options?:{
+  onSuccess?: (data: UserAuthenticated) => void,
   onError?: (error: unknown) => void
-): UseMutationResult<User, unknown, RegisterParams, unknown> => {
+}): UseMutationResult<UserAuthenticated, unknown, RegisterParams, unknown> => {
   return useMutation({
     mutationFn: authService.register,
-    onSuccess,
-    onError,
+    onSuccess: options?.onSuccess,
+    onError: options?.onError,
   });
 };
 
