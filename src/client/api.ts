@@ -1,3 +1,4 @@
+import { getLocalStorage } from '@/utils';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -11,7 +12,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
-    const storedUser = localStorage.getItem('handly-user');
+    const storedUser = getLocalStorage('handly-user');
     if (storedUser) {
       const user = JSON.parse(storedUser);
       if (user.token) {

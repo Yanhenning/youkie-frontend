@@ -7,6 +7,7 @@ import {
     Button,
     Card,
     CardContent,
+    CircularProgress,
     Divider,
     Paper,
     TextField,
@@ -27,6 +28,7 @@ interface ChatProps {
     setText: (text: string) => void;
     connected: boolean;
     messages: Array<Message>;
+    loading?: boolean;
     messagesEndRef: React.RefObject<HTMLDivElement> | null;
     handleStartConnection: () => void;
     handleSendMessage: () => void;
@@ -38,6 +40,7 @@ export default function Chat({
                                  setText,
                                  connected,
                                  messages,
+                                 loading = false,
                                  messagesEndRef,
                                  handleStartConnection,
                                  handleSendMessage,
@@ -52,7 +55,7 @@ export default function Chat({
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
-    }, [messages]);
+    }, [messages, loading]);
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -166,6 +169,29 @@ export default function Chat({
                                         )}
                                     </Box>
                                 ))}
+
+                                {/* Loading indicator when waiting for response */}
+                                {loading && (
+                                    <Box
+                                        sx={{
+                                            p: 1.5,
+                                            mb: 1,
+                                            borderRadius: 2,
+                                            maxWidth: '80%',
+                                            bgcolor: '#f5f5f5',
+                                            mr: 'auto',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1
+                                        }}
+                                    >
+                                        <CircularProgress size={20} thickness={4} color="primary" />
+                                        <Typography variant="body2" color="text.secondary">
+                                            Youkie is thinking...
+                                        </Typography>
+                                    </Box>
+                                )}
+
                                 {/* Keep this invisible div for future reference if needed */}
                                 <div ref={messagesEndRef} style={{ height: 0 }}/>
                             </Paper>
@@ -196,13 +222,33 @@ export default function Chat({
                                         padding: 0,
                                         display: 'flex',
                                         alignItems: 'center',
-                                        justifyContent: 'center'
+                                        justifyContent: 'center',
+                                        alignSelf: 'center'
                                     }}
                                 >
                                     <SendIcon/>
                                 </Button>
                             </Box>
-
+                                    {loading && (
+                                    <Box
+                                        sx={{
+                                            p: 1.5,
+                                            mb: 1,
+                                            borderRadius: 2,
+                                            maxWidth: '80%',
+                                            bgcolor: '#c72b2b',
+                                            mr: 'auto',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1
+                                        }}
+                                    >
+                                        <CircularProgress size={20} thickness={4} color="primary" />
+                                        <Typography variant="body2" color="text.secondary">
+                                            Youkie is thinking...
+                                        </Typography>
+                                    </Box>
+                                )}
                             <Accordion
                                 expanded={expanded}
                                 onChange={handleAccordionChange}

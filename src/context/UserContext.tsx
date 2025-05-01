@@ -1,7 +1,8 @@
 "use client"
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { LoginParams, useLoginMutation} from '@/services/user';
+import {LoginParams, RegisterParams, useLoginMutation} from '@/services/user';
+import {getLocalStorage, removeLocalStorage, saveLocalStorage} from "@/utils";
 
 
 export interface User {
@@ -14,29 +15,31 @@ export interface User {
 export type UserAuthenticated = {
   access_token: string;
   token_type: string;
-  user?: User;
+  user?: User | null;
 }
 
 interface UserContextType {
-  user: User | null;
+  user: User | null | undefined;
   setUser: (user: User | null) => void;
   isAuthenticated: boolean;
   logout: () => void;
-  login: (credentials: LoginParams, redirectUrl?: string) => void;
-  isLoggingIn: boolean;
+  login: (credentials: LoginParams) => void;
+  register: (credentials: RegisterParams) => void;
+  isLoading: boolean;
+  isLoggedIn: () => boolean;
   loginError: unknown;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null | undefined>(null);
   const router = useRouter();
 
-  const { mutate: loginMutate, isLoading, error: loginError } = useLoginMutation({
+  const { mutate: loginMutate, isPending: isLoading , error: loginError } = useLoginMutation({
     onSuccess: (data: UserAuthenticated) => {
-      setUser(data);
-      localStorage.setItem('token', data.access_token);
+      setUser(data?.user);
+      saveLocalStorage('token', data.access_token);
       router.push("/home")
     },
     onError: (error) => {
@@ -45,15 +48,29 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   });
 
   const login = (credentials: LoginParams) => loginMutate(credentials)
+
+  const { mutate: registerMutate } = useLoginMutation({
+    onSuccess: (data: UserAuthenticated) => {
+      setUser(data?.user);
+      saveLocalStorage('token', data.access_token);
+      router.push("/home")
+    },
+    onError: (error) => {
+      console.error('Registration error:', error);
+    }
+  });
+
+  const register = (credentials: RegisterParams) => registerMutate(credentials)
   
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token');
+    removeLocalStorage('token');
     router.push('/login');
   };
 
   const isLoggedIn = () => {
-    return localStorage.getItem('token') !== null
+    const token = getLocalStorage('token')
+    return !!token
   }
 
   const value = {
@@ -62,6 +79,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     isAuthenticated: !!user,
     logout,
     login,
+    register,
     isLoggedIn,
     loginError,
     isLoading,

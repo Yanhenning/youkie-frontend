@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { WebSocketClient } from '@/client';
 import { SummarizationStyle } from '@/constants';
 
@@ -18,12 +18,11 @@ export const useSummarizeWebsocket = () => {
   const [text, setText] = useState('');
   const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState<Array<Message>>([]);
+  const [loading, setLoading] = useState(false);
   const [summarizationStyle, setSummarizationStyle] = useState<SummarizationStyle>(SummarizationStyle.NORMAL);
   const wsRef = useRef<WebSocketClient | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
-  // Remove the useEffect that was causing page-wide scrolling issues
-  // We'll handle this differently in the Chat component
+
 
   const handleStartConnection = () => {
     if (wsRef.current) {
@@ -41,8 +40,6 @@ export const useSummarizeWebsocket = () => {
     });
 
     wsRef.current.on('message', (data) => {
-      console.log('Received message:', data);
-      
       const formatText = (data: WebSocketData): string => {
         if (typeof data === 'string') {
           return data;
@@ -54,23 +51,30 @@ export const useSummarizeWebsocket = () => {
       };
       
       const messageText = formatText(data);
+
+      // Add the message to the messages array
       setMessages(prev => [...prev, { 
         text: messageText,
         isUser: false 
       }]);
+
+      // Only set loading to false after we've received and processed the response
+      setLoading(false);
     });
 
     wsRef.current.on('error', (error) => {
       console.error('WebSocket error:', error);
-      setMessages(prev => [...prev, { 
+      setMessages(prev => [...prev, {
         text: "Connection error. Please try again later.",
         isUser: false 
       }]);
+      setLoading(false);
     });
 
     wsRef.current.on('close', () => {
       setConnected(false);
-      setMessages(prev => [...prev, { 
+      setLoading(false);
+      setMessages(prev => [...prev, {
         text: "Disconnected from Youkie.",
         isUser: false 
       }]);
@@ -81,9 +85,10 @@ export const useSummarizeWebsocket = () => {
 
   const handleSendMessage = () => {
     if (!text.trim()) return;
-    
+
+    // Set messages and loading state first
     setMessages(prev => [...prev, { text, isUser: true }]);
-    
+    setLoading(true);
     if (wsRef.current && wsRef.current.isConnected()) {
       try {
         wsRef.current.send({ 
@@ -92,16 +97,18 @@ export const useSummarizeWebsocket = () => {
         });
       } catch (error) {
         console.error('Error sending message:', error);
-        setMessages(prev => [...prev, { 
+        setMessages(prev => [...prev, {
           text: "Error sending message. Please try again.",
           isUser: false 
         }]);
+        setLoading(false);
       }
     } else {
-      setMessages(prev => [...prev, { 
+      setMessages(prev => [...prev, {
         text: "Not connected to the server. Please try connecting first.",
         isUser: false 
       }]);
+      setLoading(false);
     }
     
     setText('');
@@ -116,6 +123,7 @@ export const useSummarizeWebsocket = () => {
     setText,
     connected,
     messages,
+    loading,
     messagesEndRef,
     summarizationStyle,
     handleStartConnection,
@@ -123,3 +131,4 @@ export const useSummarizeWebsocket = () => {
     handleStyleChange
   };
 };
+

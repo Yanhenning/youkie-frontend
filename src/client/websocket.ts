@@ -37,7 +37,7 @@ class WebSocketClient extends EventEmitter {
       try {
         const data = JSON.parse(event.data);
         this.emit('message', data);
-      } catch (error) {
+      } catch {
         this.emit('message', event.data);
       }
     };
@@ -57,7 +57,7 @@ class WebSocketClient extends EventEmitter {
     };
   }
 
-  send(data: any): void {
+  send(data: unknown): void {
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
       this.emit('error', new Error('WebSocket is not connected'));
       return;

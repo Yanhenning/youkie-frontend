@@ -2,12 +2,13 @@
 
 import { useUser } from '@/context/UserContext'
 import Logout from '@mui/icons-material/Logout'
-import { Avatar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material'
+import { Avatar, Button, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material'
 import { useState } from 'react'
+import {router} from "next/client";
 
 export const LoginMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const { login, isLoggedIn, logout } = useUser()
+  const { isAuthenticated, logout } = useUser()
   const isOpen = Boolean(anchorEl);
 
   const openMenuList = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,7 +23,7 @@ export const LoginMenu = () => {
     closeMenuList()
   }
 
-  if (isLoggedIn()) {
+  if (isAuthenticated) {
     return (
       <>
         <IconButton
@@ -85,15 +86,8 @@ export const LoginMenu = () => {
 
   return (
     <Button
-      color="inherit"
-      onClick={
-        () => login({
-          name: 'John Doe',
-          email: 'email@email.com',
-          token: 'my-token',
-          refreshToken: 'refresh',
-          username: 'john_doe',
-        })}
+        onClick={() => router.push('/login')}
+        color="inherit"
     >
       Login
     </Button>

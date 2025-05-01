@@ -4,7 +4,7 @@ import { AxiosResponse, AxiosRequestConfig } from 'axios';
 /**
  * GET request wrapper
  */
-export const get = async <T = any>(
+export const get = async <T>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
@@ -15,9 +15,9 @@ export const get = async <T = any>(
 /**
  * POST request wrapper
  */
-export const post = async <T = any>(
+export const post = async <T>(
   url: string,
-  data?: any,
+  data?: unknown,
   config?: AxiosRequestConfig
 ): Promise<T> => {
   const response: AxiosResponse<T> = await api.post(url, data, config);
@@ -27,9 +27,9 @@ export const post = async <T = any>(
 /**
  * PUT request wrapper
  */
-export const put = async <T = any>(
+export const put = async <T>(
   url: string,
-  data?: any,
+  data?: unknown,
   config?: AxiosRequestConfig
 ): Promise<T> => {
   const response: AxiosResponse<T> = await api.put(url, data, config);
@@ -39,7 +39,7 @@ export const put = async <T = any>(
 /**
  * DELETE request wrapper
  */
-export const del = async <T = any>(
+export const del = async <T>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {

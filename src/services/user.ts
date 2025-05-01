@@ -6,7 +6,6 @@ export type RegisterParams = {
   name: string;
   email: string;
   password: string;
-  username: string;
 };
 
 export type LoginParams = {
@@ -56,7 +55,7 @@ export const useLoginMutation = (options?: {
     mutationFn: authService.login,
     onSuccess: options?.onSuccess,
     onError: options?.onError,
-  })
+  });
 }
 
 export const useRegisterMutation = (
