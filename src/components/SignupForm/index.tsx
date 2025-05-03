@@ -13,13 +13,13 @@ export type SignupFormProps = {
 
 export type SignupFormValues = {
   email: string
-  name: string
+  username: string
   password: string
 }
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Email is required'),
-  name: Yup.string().required('Name is required'),
+  username: Yup.string().required('Name is required'),
   password: Yup.string().min(6, 'Password should be at least 6 characters').required('Password is required'),
 })
 
@@ -32,7 +32,7 @@ export function SignupForm({
   const formik = useFormik({
     initialValues: {
       email: '',
-      name: '',
+      username: '',
       password: '',
     },
     validationSchema: validationSchema,
@@ -57,9 +57,9 @@ export function SignupForm({
         label="Name"
         type="text"
         fullWidth
-        {...formik.getFieldProps('name')}
-        error={formik.touched.name && Boolean(formik.errors.name)}
-        helperText={formik.touched.name && formik.errors.name}
+        {...formik.getFieldProps('username')}
+        error={formik.touched.username && Boolean(formik.errors.username)}
+        helperText={formik.touched.username && formik.errors.username}
       />
       <TextField
         margin="dense"

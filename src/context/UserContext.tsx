@@ -2,7 +2,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import {LoginParams, RegisterParams, useLoginMutation, useRegisterMutation} from '@/services/user';
-import {getLocalStorage, removeLocalStorage, saveLocalStorage} from "@/utils";
+import {removeLocalStorage, saveLocalStorage} from "@/utils";
 
 
 export interface User {
@@ -24,7 +24,7 @@ interface UserContextType {
   isAuthenticated: boolean;
   logout: () => void;
   login: (credentials: LoginParams) => void;
-  register: (credentials: RegisterParams) => void;
+  register: (credentials: RegisterParams) => Promise<void>;
   isLoading: boolean;
   isLoggedIn: () => boolean;
   loginError: unknown;
@@ -49,7 +49,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = (credentials: LoginParams) => loginMutate(credentials)
 
-  const { mutate: registerMutate } = useRegisterMutation({
+  const { mutate: registerMutate, isPending: isRegistering } = useRegisterMutation({
     onSuccess: (data: UserAuthenticated) => {
       setUser(data?.user);
       saveLocalStorage('token', data.access_token);
@@ -60,7 +60,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   });
 
-  const register = (credentials: RegisterParams) => registerMutate(credentials)
+  const register = (credentials: RegisterParams): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      registerMutate(credentials, {
+        onSuccess: () => resolve(),
+        onError: (error) => reject(error)
+      });
+    });
+  }
   
   const logout = () => {
     setUser(null);
@@ -81,7 +88,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     register,
     isLoggedIn,
     loginError,
-    isLoading,
+    isLoading: isLoading || isRegistering,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

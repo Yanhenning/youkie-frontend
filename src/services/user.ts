@@ -3,7 +3,7 @@ import { post } from '@/client/methods';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
 export type RegisterParams = {
-  name: string;
+  username: string;
   email: string;
   password: string;
 };
