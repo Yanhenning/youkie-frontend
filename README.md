@@ -76,6 +76,10 @@ The application connects to the backend API for:
 
 Make sure the backend server is running and properly configured in your environment variables.
 
+## Tests
+Due to the delivery date of the project, currently there aren't any unittest here, but in the future I'm going to add a few tests using jest + react testing library
+and a few tests with playwright for e2e testing, the idea is having these tests to guarantee the quality and the speed of development for the new features
+
 ## Technology Stack
 
 - Next.js
