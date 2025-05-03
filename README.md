@@ -14,8 +14,7 @@ A modern web application featuring a chat interface powered by LangChain for int
 The application features a chat interface that connects to a LangChain backend through WebSockets:
 
 - Real-time message streaming for fluid conversation experience
-- Intelligent responses powered by LangChain's language models
-- Loading indicators for better user experience while waiting for responses
+- Intelligent responses powered by Youkiue(LangChain's language models)
 - Automatic scrolling for new messages
 
 ## Getting Started
@@ -55,7 +54,7 @@ The application features a chat interface that connects to a LangChain backend t
    For local development, these might look like:
    ```
    NEXT_PUBLIC_API_URL=http://localhost:8000
-   NEXT_PUBLIC_WS_URL=ws://localhost:8000/ws
+   NEXT_PUBLIC_WS_URL=ws://localhost:8000/
    ```
 
 5. Start the development server:
