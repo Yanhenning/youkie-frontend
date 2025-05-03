@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {LoginParams, RegisterParams, useLoginMutation, useRegisterMutation} from '@/services/user';
 import {removeLocalStorage, saveLocalStorage} from "@/utils";
@@ -60,14 +60,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   });
 
-  const register = (credentials: RegisterParams): Promise<void> => {
-    return new Promise((resolve, reject) => {
+  const register = (credentials: RegisterParams): Promise<void> => new Promise((resolve, reject) => {
       registerMutate(credentials, {
         onSuccess: () => resolve(),
         onError: (error) => reject(error)
       });
-    });
-  }
+    })
   
   const logout = () => {
     setUser(null);
@@ -75,9 +73,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     router.push('/login');
   };
 
-  const isLoggedIn = () => {
-    return !!user
-  }
+  const isLoggedIn = () => !!user
 
   const value = {
     user,

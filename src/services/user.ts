@@ -50,32 +50,26 @@ export const authService = {
 export const useLoginMutation = (options?: {
   onSuccess?: (data: UserAuthenticated) => void;
   onError?: (error: unknown) => void;
-}): UseMutationResult<UserAuthenticated, unknown, LoginParams, unknown> => {
-  return useMutation({
+}): UseMutationResult<UserAuthenticated, unknown, LoginParams, unknown> => useMutation({
     mutationFn: authService.login,
     onSuccess: options?.onSuccess,
     onError: options?.onError,
-  });
-}
+  })
 
 export const useRegisterMutation = (options?:{
   onSuccess?: (data: UserAuthenticated) => void,
   onError?: (error: unknown) => void
-}): UseMutationResult<UserAuthenticated, unknown, RegisterParams, unknown> => {
-  return useMutation({
+}): UseMutationResult<UserAuthenticated, unknown, RegisterParams, unknown> => useMutation({
     mutationFn: authService.register,
     onSuccess: options?.onSuccess,
     onError: options?.onError,
   });
-};
 
 export const useRefreshTokenMutation = (
   onSuccess?: (data: TokenResponse) => void,
   onError?: (error: unknown) => void
-): UseMutationResult<TokenResponse, unknown, string, unknown> => {
-  return useMutation({
+): UseMutationResult<TokenResponse, unknown, string, unknown> => useMutation({
     mutationFn: authService.refreshToken,
     onSuccess,
     onError,
   });
-};

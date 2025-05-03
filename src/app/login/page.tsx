@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Box, Typography, Paper, Container, Link as MuiLink } from '@mui/material';
+import { Box, Container, Link as MuiLink, Paper, Typography } from '@mui/material';
 import Link from 'next/link';
 import { LoginForm } from '@/components/LoginForm';
 
-const LoginPage = () => {
-  return (
+const LoginPage = () => (
     <Container maxWidth="sm">
       <Box
         sx={{
@@ -45,6 +44,5 @@ const LoginPage = () => {
       </Box>
     </Container>
   );
-};
 
 export default LoginPage;

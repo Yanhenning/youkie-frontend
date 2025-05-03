@@ -1,12 +1,11 @@
 'use client';
 import React from 'react';
-import { Box, Container, Typography, Link, Divider, Stack, IconButton } from '@mui/material';
+import { Box, Container, Divider, IconButton, Link, Stack, Typography } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-const Footer: React.FC = () => {
-  return (
+const Footer: React.FC = () => (
     <Box
       component="footer"
       sx={{
@@ -59,7 +58,6 @@ const Footer: React.FC = () => {
       </Container>
     </Box>
   );
-};
 
 export default Footer;
 

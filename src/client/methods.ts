@@ -1,5 +1,5 @@
 import api from './api';
-import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 /**
  * GET request wrapper

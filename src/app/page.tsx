@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Typography, Card, CardContent, Button, Box, Chip } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, Typography } from "@mui/material";
 import ArticleIcon from '@mui/icons-material/Article';
 import EmailIcon from '@mui/icons-material/Email';
 import AudioFileIcon from '@mui/icons-material/AudioFile';

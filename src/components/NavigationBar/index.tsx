@@ -1,6 +1,6 @@
 'use client'
 
-import {AppBar, Box, Stack, Toolbar, Typography, Button} from '@mui/material'
+import {AppBar, Box, Button, Stack, Toolbar, Typography} from '@mui/material'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { LoginMenu } from '@/components/LoginMenu'

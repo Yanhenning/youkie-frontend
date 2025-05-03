@@ -35,7 +35,7 @@ export function SignupForm({
       username: '',
       password: '',
     },
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: (values) => {
       onSubmit(values)
     },
