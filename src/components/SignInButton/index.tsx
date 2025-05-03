@@ -2,12 +2,13 @@
 
 import { useUser } from '@/context/UserContext'
 import { Button } from '@mui/material'
-import { RegisterDialog } from '@/components/RegisterDialog'
-import { useState } from 'react'
+
+import { useRouter } from 'next/navigation'
+
 
 export const SignInButton = () => {
+  const router = useRouter()
   const { isLoggedIn } = useUser()
-  const [registerDialogOpen, setRegisterDialogOpen] = useState<boolean>(false)
 
   if (isLoggedIn()) {
     return null
@@ -17,11 +18,10 @@ export const SignInButton = () => {
     <>
       <Button
         color="inherit"
-        onClick={() => setRegisterDialogOpen(true)}
+        onClick={() => router.push("/signup")}
       >
-        Sign in
+        Sign up
       </Button>
-      <RegisterDialog open={registerDialogOpen} onClose={() => setRegisterDialogOpen(false)} />
     </>
   )
 }

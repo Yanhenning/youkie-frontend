@@ -1,13 +1,14 @@
 import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
-import {Box, ThemeProvider} from "@mui/material";
+import {Box, Container, Stack, ThemeProvider} from "@mui/material";
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v15-appRouter'
 import {UserProvider} from "@/context/UserContext";
 import theme from '@/theme'
 import NavigationBar from "@/components/NavigationBar";
 import Footer from "@/components/Footer";
 import ReactQueryProvider from "@/context/ReactQueryProvider";
+import React from "react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -37,11 +38,15 @@ export default function RootLayout({children}: Readonly<{
             <ThemeProvider theme={theme}>
                 <ReactQueryProvider>
                     <UserProvider>
-                        <NavigationBar/>
-                        <Box sx={{margin: 4, minHeight: '680px'}}>
-                            {children}
-                        </Box>
-                        <Footer/>
+                        <Stack justifyContent="flex-start">
+                            <NavigationBar/>
+                            <Stack flexGrow={1} justifyContent="center" alignItems="center" minHeight="75vh">
+                                <Container sx={{margin: 4}}>
+                                {children}
+                                </Container>
+                            </Stack>
+                            <Footer/>
+                        </Stack>
                     </UserProvider>
                 </ReactQueryProvider>
             </ThemeProvider>

@@ -14,7 +14,6 @@ const LoginPage = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: '100vh',
           py: 4,
         }}
       >

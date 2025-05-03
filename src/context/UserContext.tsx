@@ -69,8 +69,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const isLoggedIn = () => {
-    const token = getLocalStorage('token')
-    return !!token
+    return !!user
   }
 
   const value = {

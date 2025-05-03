@@ -1,7 +1,6 @@
 'use client'
 
-import {AppBar, Box, Stack, Toolbar, Typography} from '@mui/material'
-
+import {AppBar, Box, Stack, Toolbar, Typography, Button} from '@mui/material'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { LoginMenu } from '@/components/LoginMenu'
@@ -11,9 +10,13 @@ import { useUser } from '@/context/UserContext'
 export default function NavigationBar() {
     const router = useRouter()
     const { isLoggedIn } = useUser()
+
     const handleLogoClick = () => {
-        const url = isLoggedIn() ? '/home' : '/'
-        router.push(url)
+        router.push('/')
+    }
+
+    const handleHomeClick = () => {
+        router.push('/home')
     }
 
     return (
@@ -36,6 +39,16 @@ export default function NavigationBar() {
                                 Youkie
                             </Typography>
                         </Box>
+                        {isLoggedIn() && (
+                            <Button
+                                color="inherit"
+                                onClick={handleHomeClick}
+                                size="small"
+                                sx={{ ml: 1 }}
+                            >
+                                Home
+                            </Button>
+                        )}
                     </Stack>
                     <Stack direction="row" spacing={1}>
                         <SignInButton/>
